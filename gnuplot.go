@@ -14,7 +14,6 @@ import (
 	"os/exec"
 )
 
-var g_gnuplot_cmd string
 var g_gnuplot_prefix string = "go-gnuplot-"
 
 func min(a, b int) int {
@@ -22,16 +21,6 @@ func min(a, b int) int {
 		return a
 	}
 	return b
-}
-
-func init() {
-	var err error
-	g_gnuplot_cmd, err = exec.LookPath("gnuplot")
-	if err != nil {
-		fmt.Printf("** could not find path to 'gnuplot':\n%v\n", err)
-		panic("could not find 'gnuplot'")
-	}
-	fmt.Printf("-- found gnuplot command: %s\n", g_gnuplot_cmd)
 }
 
 type gnuplot_error struct {
@@ -48,12 +37,16 @@ type plotter_process struct {
 }
 
 func new_plotter_proc(persist bool) (*plotter_process, error) {
+	gnuplotCmd, err := exec.LookPath("gnuplot")
+	if err != nil {
+		return nil, fmt.Errorf("could not find gnuplot in PATH: %w", err)
+	}
+
 	proc_args := []string{}
 	if persist {
 		proc_args = append(proc_args, "-persist")
 	}
-	fmt.Printf("--> [%v] %v\n", g_gnuplot_cmd, proc_args)
-	cmd := exec.Command(g_gnuplot_cmd, proc_args...)
+	cmd := exec.Command(gnuplotCmd, proc_args...)
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
 		return nil, err
