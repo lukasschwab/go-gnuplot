@@ -170,7 +170,7 @@ func (self *Plotter) PlotX(data []float64, title string) error {
 			cmd, fname, title, self.style)
 	}
 	self.nplots += 1
-	return self.Cmd(line)
+	return self.Cmd("%s", line)
 }
 
 // PlotXY will create a 2-d plot using `x` and `y` as input and `title` as
@@ -212,7 +212,7 @@ func (self *Plotter) PlotXY(x, y []float64, title string) error {
 			cmd, fname, title, self.style)
 	}
 	self.nplots += 1
-	return self.Cmd(line)
+	return self.Cmd("%s", line)
 }
 
 // PlotXYZ will create a 3-d plot using `x`, `y` and `z` as input and
@@ -253,7 +253,7 @@ func (self *Plotter) PlotXYZ(x, y, z []float64, title string) error {
 			cmd, fname, title, self.style)
 	}
 	self.nplots += 1
-	return self.Cmd(line)
+	return self.Cmd("%s", line)
 }
 
 // Func is a 1-d function which can be plotted with gnuplot
@@ -294,7 +294,7 @@ func (self *Plotter) PlotFunc(data []float64, fct Func, title string) error {
 			cmd, fname, title, self.style)
 	}
 	self.nplots += 1
-	return self.Cmd(line)
+	return self.Cmd("%s", line)
 }
 
 // SetPlotCmd changes the command used for plotting by the gnuplot subprocess.
@@ -349,17 +349,17 @@ func (self *Plotter) SetStyle(style string) (err error) {
 
 // SetXLabel changes the label for the x-axis
 func (self *Plotter) SetXLabel(label string) error {
-	return self.Cmd(fmt.Sprintf("set xlabel '%s'", label))
+	return self.Cmd("set xlabel '%s'", label)
 }
 
 // SetYLabel changes the label for the y-axis
 func (self *Plotter) SetYLabel(label string) error {
-	return self.Cmd(fmt.Sprintf("set ylabel '%s'", label))
+	return self.Cmd("set ylabel '%s'", label)
 }
 
 // SetZLabel changes the label for the z-axis
 func (self *Plotter) SetZLabel(label string) error {
-	return self.Cmd(fmt.Sprintf("set zlabel '%s'", label))
+	return self.Cmd("set zlabel '%s'", label)
 }
 
 // SetLabels changes the labels for the x-,y- and z-axis in one go, depending
